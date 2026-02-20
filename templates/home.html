@@ -2,8 +2,18 @@
 
 {% block conteudo %}
 
-<h2>Bem-vindo</h2>
+<div class="netflix-content">
+    <div class="content-header">
+        <h2 class="content-title">Bem-vindo</h2>
+    </div>
 
-<a href="{{ url_for('lista') }}">Ir para Lista</a>
+    <p>Gerencie sua lista de filmes e séries.</p>
+
+    <br>
+
+    <a href="{{ url_for('lista') }}" class="btn-novo">
+        Ir para Lista
+    </a>
+</div>
 
 {% endblock %}

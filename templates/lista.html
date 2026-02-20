@@ -2,57 +2,146 @@
 
 {% block conteudo %}
 
-<a href="{{ url_for('home') }}">Home</a>
+<!-- FORM SECTION -->
+<div class="netflix-form-section">
+    <div class="form-container">
 
-<h2>
-{% if item_selecionado %}
-Editar Item
-{% else %}
-Novo Item
-{% endif %}
-</h2>
+        <h2 class="form-title">
+            {% if item_selecionado %}
+                Editar Item
+            {% else %}
+                Novo Item
+            {% endif %}
+        </h2>
 
-{% if item_selecionado %}
-<form method="POST" action="{{ url_for('update', idItem=item_selecionado.id) }}">
-{% else %}
-<form method="POST" action="{{ url_for('lista') }}">
-{% endif %}
+        {% if item_selecionado %}
+        <form class="netflix-form" method="POST" action="{{ url_for('update', idItem=item_selecionado.id) }}">
+        {% else %}
+        <form class="netflix-form" method="POST" action="{{ url_for('lista') }}">
+        {% endif %}
 
-    <input type="text" name="titulo-item"
-    placeholder="Título"
-    value="{{ item_selecionado.titulo_item if item_selecionado else '' }}"
-    required>
+            <div class="form-group">
+                <label>Título</label>
+                <input type="text"
+                       name="titulo-item"
+                       placeholder="Digite o título"
+                       value="{{ item_selecionado.titulo_item if item_selecionado else '' }}"
+                       required>
+            </div>
 
-    <input type="text" name="tipo-item"
-    placeholder="Tipo"
-    value="{{ item_selecionado.tipo_item if item_selecionado else '' }}"
-    required>
+           <div class="form-group">
+    <label>Tipo</label>
 
-    <input type="text" name="indicado-por"
-    placeholder="Indicado por"
-    value="{{ item_selecionado.indicado_por if item_selecionado else '' }}">
+    <select name="tipo-item" required>
+        <option value="">Selecione</option>
 
-    <button type="submit">
-        {% if item_selecionado %}Atualizar{% else %}Salvar{% endif %}
-    </button>
+        <option value="Filme"
+            {% if item_selecionado and item_selecionado.tipo_item == 'Filme' %}
+                selected
+            {% endif %}>
+            Filme
+        </option>
 
-</form>
+        <option value="Série"
+            {% if item_selecionado and item_selecionado.tipo_item == 'Série' %}
+                selected
+            {% endif %}>
+            Série
+        </option>
 
-<hr>
+        <option value="Jogo"
+            {% if item_selecionado and item_selecionado.tipo_item == 'Jogo' %}
+                selected
+            {% endif %}>
+            Jogo
+        </option>
 
-<h2>Lista</h2>
+        <option value="Livro"
+            {% if item_selecionado and item_selecionado.tipo_item == 'Livro' %}
+                selected
+            {% endif %}>
+            Livro
+        </option>
+    </select>
 
-<ul>
-{% for item in itens %}
-    <li>
-        {{ item.titulo_item }} |
-        {{ item.tipo_item }} |
-        {{ item.indicado_por }}
+</div>
 
-        <a href="{{ url_for('update', idItem=item.id) }}">Editar</a>
-        <a href="{{ url_for('delete', idItem=item.id) }}">Excluir</a>
-    </li>
-{% endfor %}
-</ul>
+            <div class="form-group">
+                <label>Indicado por</label>
+                <input type="text"
+                       name="indicado-por"
+                       placeholder="Quem indicou?"
+                       value="{{ item_selecionado.indicado_por if item_selecionado else '' }}">
+            </div>
+
+            <button type="submit" class="btn-submit">
+                {% if item_selecionado %}Atualizar{% else %}Salvar{% endif %}
+            </button>
+
+        </form>
+    </div>
+</div>
+
+
+<!-- LISTA DE FILMES -->
+<div class="netflix-content">
+
+    <div class="content-header">
+        <h2 class="content-title">
+            Minha Lista
+            <span class="filme-count">{{ itens|length }}</span>
+        </h2>
+    </div>
+
+    {% if itens|length == 0 %}
+        <div class="empty-state">
+            <div class="empty-icon">🎬</div>
+            <h3>Nenhum item ainda</h3>
+            <p>Adicione seu primeiro filme ou série!</p>
+        </div>
+    {% else %}
+
+    <div class="filmes-grid">
+
+        {% for item in itens %}
+        <div class="filme-card">
+
+            <div class="filme-poster">
+                <div class="poster-placeholder"></div>
+                <span class="tipo-badge">
+                    {{ item.tipo_item }}
+                </span>
+            </div>
+
+            <div class="filme-info">
+
+                <div class="filme-titulo">
+                    {{ item.titulo_item }}
+                </div>
+
+                <div class="filme-indicado">
+                    Indicado por:
+                    <strong>{{ item.indicado_por }}</strong>
+                </div>
+
+                <div class="filme-actions">
+                    <a href="{{ url_for('update', idItem=item.id) }}" class="btn-action btn-editar">
+                        Editar
+                    </a>
+
+                    <a href="{{ url_for('delete', idItem=item.id) }}" class="btn-action btn-excluir">
+                        Excluir
+                    </a>
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+    {% endif %}
+
+</div>
 
 {% endblock %}
