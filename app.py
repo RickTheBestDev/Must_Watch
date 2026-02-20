@@ -52,7 +52,7 @@ def update(idItem):
         item = MustWatch(titulo, tipo, indicado, idItem)
         item.atualizar_item()
         return redirect(url_for("lista"))
-
+ 
     itens = MustWatch.obter_lista()
     item_selecionado = MustWatch.id(idItem)
 

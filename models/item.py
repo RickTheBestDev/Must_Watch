@@ -4,7 +4,7 @@ from sqlite3 import Cursor
 
 
 class MustWatch:
-
+ 
     def __init__(
         self: Self,
         titulo_item: Optional[str],
