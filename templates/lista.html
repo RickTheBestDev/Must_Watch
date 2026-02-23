@@ -15,7 +15,7 @@
         </h2>
 
         {% if item_selecionado %}
-        <form class="netflix-form" method="POST" action="{{ url_for('update', idItem=item_selecionado.id) }}">
+        <form class="netflix-form" method="POST" action="{{ url_for('update', idItem=item_selecionado.id_item) }}">
         {% else %}
         <form class="netflix-form" method="POST" action="{{ url_for('lista') }}">
         {% endif %}
@@ -125,11 +125,11 @@
                 </div>
 
                 <div class="filme-actions">
-                    <a href="{{ url_for('update', idItem=item.id) }}" class="btn-action btn-editar">
+                    <a href="{{ url_for('update', idItem=item.id_item) }}" class="btn-action btn-editar">
                         Editar
                     </a>
 
-                    <a href="{{ url_for('delete', idItem=item.id) }}" class="btn-action btn-excluir">
+                    <a href="{{ url_for('delete', idItem=item.id_item) }}" class="btn-action btn-excluir">
                         Excluir
                     </a>
                 </div>

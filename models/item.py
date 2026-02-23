@@ -16,7 +16,7 @@ class MustWatch:
         self.titulo_item = titulo_item
         self.tipo_item = tipo_item
         self.indicado_por = indicado_por
-        self.id = id_item
+        self.id_item = id_item
 
     @classmethod
     def id(cls, id: int) -> Self:
@@ -57,14 +57,14 @@ class MustWatch:
             resultados: list[Any] = db.buscar_tudo(query)
 
             return [
-                cls(titulo, tipo, indicado, id_item)
+                cls(titulo, tipo, indicado, id_item) 
                 for titulo, tipo, indicado, id_item in resultados
             ]
 
     def excluir_item(self) -> Cursor:
         with Database() as db:
             query: str = "DELETE FROM mustwatch WHERE id_item = ?;"
-            params: tuple = (self.id,)
+            params: tuple = (self.id_item,)
             return db.executar(query, params)
 
     def atualizar_item(self) -> Cursor:
@@ -78,6 +78,6 @@ class MustWatch:
                 self.titulo_item,
                 self.tipo_item,
                 self.indicado_por,
-                self.id
+                self.id_item
             )
             return db.executar(query, params)
